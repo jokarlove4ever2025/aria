@@ -5,7 +5,6 @@ on:
   pull_request:
     branches: 
       - main
-      - monorepo*
 
 jobs:
   prettier:
@@ -13,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{github.event.pull_request.head.ref}}
           repository: ${{github.event.pull_request.head.repo.full_name}}
@@ -25,10 +24,10 @@ jobs:
 
       - name: Prettify code
         id: prettify
-        uses: creyD/prettier_action@v4.3
+        uses: creyD/prettier_action@v4.5
         with:
-          dry: true
-          prettier_options: --write **/index.html --print-width 200
+          prettier_options: --write "**/index.html" "!index.html" --print-width 200
+          only_changed: True
           commit_message: "chore: prettier"
         continue-on-error: true
 
